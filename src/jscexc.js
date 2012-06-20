@@ -169,7 +169,7 @@ function generateCode(inputCode, results) {
 }
 
 var compile = function (code, binders) {
-    binders = binders || { "async": "$await", "seq": "$yield" };
+    binders = binders || { "async": "$call", "$await", "seq": "$yield" };
     
     var oldBinders = Jscex.binders;
     Jscex.binders = binders;

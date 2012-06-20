@@ -254,6 +254,13 @@
                             assignee: null
                         };
                     }
+					else if (callee[0] == "dot" && callee[2] == this._binder) {
+						return {
+							expression: expr,
+                            argName: "",
+                            assignee: null
+						};
+					}
                 } else if (expr[0] == "assign") {
                     var assignee = expr[2];
                     expr = expr[3];
@@ -266,6 +273,13 @@
                                 assignee: assignee
                             };
                         }
+						else if (callee[0] == "dot" && callee[2] == this._binder) {
+							return {
+								expression: expr,
+                                argName: "_result_$",
+                                assignee: assignee
+							};
+						}
                     }
                 }
             } else if (type == "var") {
@@ -283,6 +297,13 @@
                                 assignee: null
                             };                            
                         }
+						else if (callee[0] == "dot" && callee[2] == this._binder) {
+                            return {
+                                expression: expr,
+                                argName: name,
+                                assignee: null
+                            };
+                        }
                     }
                 }
             } else if (type == "return") {
@@ -296,6 +317,13 @@
                             assignee: "return"
                         };
                     }
+					else if (callee[0] == "dot" && callee[2] == this._binder) {
+						return {
+							expression: expr,
+                            argName: "_result_$",
+                            assignee: "return"
+						};
+					}
                 }
             }
 
@@ -1687,4 +1715,14 @@
         Jscex = global.Jscex;
         defineModule();
     }
+	
+	// --------------------------------------------------------------------->>
+	// add simple async function call
+	// --------------------------------------------------------------------->>
+	
+	Function.prototype.$call=function(){
+		if (!this.__asyncall) this.__asyncall = eval(Jscex.compile("async", this));
+		return this.__asyncall.apply(this,arguments);
+	}
+
 })();

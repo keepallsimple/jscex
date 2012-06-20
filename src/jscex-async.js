@@ -253,7 +253,7 @@
                 Async.Task = Task;
                 Async.AsyncBuilder = AsyncBuilder;
             
-                Jscex.binders["async"] = "$await";
+                Jscex.binders["async"] = "$call";
                 Jscex.builders["async"] = new AsyncBuilder();
             }
         });
